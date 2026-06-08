@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "sys_ble.h"
 #include "fw_session.h"
 #include "sys_config.h"
 #include "sys_output.h"
@@ -8,31 +9,20 @@
 static void sys_handle_rf_command(SysRfCommand command)
 {
     FwSessionStatus session_status = FW_SESSION_STATUS_OK;
-    SysOutputStatus output_status = SYS_OUTPUT_STATUS_OK;
 
     assert(command >= SYS_RF_COMMAND_NONE);
     assert(command <= SYS_RF_COMMAND_UNKNOWN);
 
     if (command == SYS_RF_COMMAND_ACTIVATE)
     {
-        output_status = sys_output_activate();
-        assert(output_status == SYS_OUTPUT_STATUS_OK);
-        if (output_status == SYS_OUTPUT_STATUS_OK)
-        {
-            session_status = fw_session_start();
-            assert(session_status == FW_SESSION_STATUS_OK);
-        }
+        session_status = fw_session_set_active(true);
+        assert(session_status == FW_SESSION_STATUS_OK);
         Serial.println("Output activated");
     }
     else if (command == SYS_RF_COMMAND_DEACTIVATE)
     {
-        output_status = sys_output_deactivate();
-        assert(output_status == SYS_OUTPUT_STATUS_OK);
-        if (output_status == SYS_OUTPUT_STATUS_OK)
-        {
-            session_status = fw_session_stop();
-            assert(session_status == FW_SESSION_STATUS_OK);
-        }
+        session_status = fw_session_set_active(false);
+        assert(session_status == FW_SESSION_STATUS_OK);
         Serial.println("Output deactivated");
     }
     else if (command == SYS_RF_COMMAND_UNKNOWN)
@@ -48,6 +38,7 @@ static void sys_handle_rf_command(SysRfCommand command)
 void setup() {
     SysOutputStatus output_status = SYS_OUTPUT_STATUS_OK;
     SysRfStatus rf_status = SYS_RF_STATUS_OK;
+    SysBleStatus ble_status = SYS_BLE_STATUS_OK;
 
     Serial.begin(SYS_SERIAL_BAUD);
     assert(SYS_SERIAL_BAUD > 0UL);
@@ -59,12 +50,16 @@ void setup() {
     rf_status = sys_rf_init(SYS_RF_INPUT_PIN);
     assert(rf_status == SYS_RF_STATUS_OK);
 
+    ble_status = sys_ble_init();
+    assert(ble_status == SYS_BLE_STATUS_OK);
+
     Serial.println("RF outlet ready");
 }
 
 void loop() {
     const SysRfCommand command = sys_rf_poll();
     FwSessionStatus session_status = FW_SESSION_STATUS_OK;
+    SysBleStatus ble_status = SYS_BLE_STATUS_OK;
 
     assert(command >= SYS_RF_COMMAND_NONE);
     assert(command <= SYS_RF_COMMAND_UNKNOWN);
@@ -77,4 +72,7 @@ void loop() {
     {
         Serial.println("Session timeout output error");
     }
+
+    ble_status = sys_ble_poll();
+    assert(ble_status == SYS_BLE_STATUS_OK);
 }

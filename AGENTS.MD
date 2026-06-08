@@ -8,3 +8,5 @@
 8. The use of the preprocessor must be limited to the inclusion of header files and simple macros definitions. Token pasting, variable argument lists (ellipses), and recursive macro calls are not allowed. All macros must expand into complete syntactic units. The use of conditional compilation directives must be kept to a minimum.
 9. The use of pointers must be restricted. Specifically, no more than one level of dereference should be used. Pointer dereference operations may not be hidden in macro definitions or inside typedef declarations.
 10. All code must be compiled, from the first day of development, with all compiler warnings enabled. All code must compile without warnings.
+11. Use `sys_xxx` for system peripheral-related files (e.g. BLE or RF) and `fw_xxx` for firmware-only related files (e.g. session handling)
+12. Use `ae615000-0000-4000-8000-XXXXXXXXXXXX` for BLE UUID incrementing second block and replacing last block with random-generated hex.
