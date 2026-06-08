@@ -31,6 +31,7 @@ static uint32_t g_last_time_notify_ms = 0UL;
 static uint32_t g_last_elapsed_seconds = UINT32_MAX;
 static uint8_t g_last_status_value = UINT8_MAX;
 static bool g_ble_initialized = false;
+static bool g_advertising_restart_needed = false;
 
 static void sys_ble_write_u32_string(BLECharacteristic *characteristic, uint32_t value)
 {
@@ -252,9 +253,36 @@ public:
     }
 };
 
+class SysBleServerCallbacks : public BLEServerCallbacks
+{
+public:
+    void onConnect(BLEServer *server)
+    {
+        assert(server != nullptr);
+        assert(g_ble_server != nullptr);
+    }
+
+    void onDisconnect(BLEServer *server)
+    {
+        assert(server != nullptr);
+        assert(g_ble_server != nullptr);
+
+        g_advertising_restart_needed = true;
+    }
+
+    void onDisconnect(BLEServer *server, esp_ble_gatts_cb_param_t *param)
+    {
+        assert(server != nullptr);
+        assert(param != nullptr);
+
+        g_advertising_restart_needed = true;
+    }
+};
+
 static SysBleLimitCallbacks g_limit_callbacks;
 static SysBleStatusCallbacks g_status_callbacks;
 static SysBleTimeCallbacks g_time_callbacks;
+static SysBleServerCallbacks g_server_callbacks;
 
 static void sys_ble_create_characteristics(void)
 {
@@ -302,6 +330,7 @@ SysBleStatus sys_ble_init(void)
     BLEDevice::init(SYS_BLE_DEVICE_NAME);
     g_ble_server = BLEDevice::createServer();
     assert(g_ble_server != nullptr);
+    g_ble_server->setCallbacks(&g_server_callbacks);
 
     g_session_service = g_ble_server->createService(String(SYS_BLE_SERVICE_UUID), 15U);
     assert(g_session_service != nullptr);
@@ -345,6 +374,12 @@ SysBleStatus sys_ble_poll(void)
         g_time_characteristic->notify();
         g_last_time_notify_ms = now_ms;
         g_last_elapsed_seconds = elapsed_seconds;
+    }
+
+    if (g_advertising_restart_needed)
+    {
+        BLEDevice::startAdvertising();
+        g_advertising_restart_needed = false;
     }
 
     return SYS_BLE_STATUS_OK;

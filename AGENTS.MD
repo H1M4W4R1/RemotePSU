@@ -10,3 +10,5 @@
 10. All code must be compiled, from the first day of development, with all compiler warnings enabled. All code must compile without warnings.
 11. Use `sys_xxx` for system peripheral-related files (e.g. BLE or RF) and `fw_xxx` for firmware-only related files (e.g. session handling)
 12. Use `ae615000-0000-4000-8000-XXXXXXXXXXXX` for BLE UUID incrementing second block and replacing last block with random-generated hex.
+13. Ensure BLE devices are re-advertised after disconnected.
+14. Author: H1M4W4R1
