@@ -6,8 +6,8 @@ RFOutlet is ESP32 firmware for a remotely controlled relay outlet. It listens fo
 
 - Board: WEMOS D1 R32 / ESP32
 - Framework: Arduino via PlatformIO
-- Relay output pin: `19`
-- RF input pin: `26`
+- Relay output pin: `19` (5V relay controlled using N-MOSFET)
+- RF input pin: `26` (433MHz SYN480R ASK Receiver)
 - Serial baud: `115200`
 
 The relay output is active-low: activation drives the output pin `LOW`, and deactivation drives it `HIGH`.
