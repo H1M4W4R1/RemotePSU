@@ -7,11 +7,11 @@
 #include <BLEDevice.h>
 #include <assert.h>
 
-static const char *SYS_BLE_DEVICE_NAME = "RF Outlet";
-static const char *SYS_BLE_SERVICE_UUID = "ae615000-0000-4000-8000-1860a67e9f16";
-static const char *SYS_BLE_LIMIT_UUID = "ae615000-0001-4000-8000-1860a67e9f16";
-static const char *SYS_BLE_STATUS_UUID = "ae615000-0002-4000-8000-1860a67e9f16";
-static const char *SYS_BLE_TIME_UUID = "ae615000-0003-4000-8000-1860a67e9f16";
+static const char *SYS_BLE_DEVICE_NAME = "OST-RFO";
+static const char *SYS_BLE_SERVICE_UUID = "ae615000-0000-4000-8000-12670255c8fa";
+static const char *SYS_BLE_LIMIT_UUID = "ae615000-0001-4000-8000-12670255c8fa";
+static const char *SYS_BLE_STATUS_UUID = "ae615000-0002-4000-8000-12670255c8fa";
+static const char *SYS_BLE_TIME_UUID = "ae615000-0003-4000-8000-12670255c8fa";
 static const uint32_t SYS_BLE_NOTIFY_PERIOD_MS = 1000UL;
 static const size_t SYS_BLE_U32_STRING_MAX_SIZE = 10U;
 static const size_t SYS_BLE_U8_VALUE_SIZE = 1U;

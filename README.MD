@@ -25,19 +25,19 @@ A session starts when the relay activates and stops when the relay deactivates. 
 
 ## BLE Control
 
-BLE device name: `RF Outlet`
+BLE device name: `OST-RFO`
 
 Custom service:
 
-- `ae615000-0000-4000-8000-1860a67e9f16`
+- `ae615000-0000-4000-8000-12670255c8fa`
 
 Characteristics use readable ASCII string values:
 
 | UUID                                   | Name                         | Properties          | Value                                |
 |----------------------------------------|------------------------------|---------------------|--------------------------------------|
-| `ae615000-0001-4000-8000-1860a67e9f16` | Session Max Time Seconds     | Read, Write         | Decimal seconds, for example `28800` |
-| `ae615000-0002-4000-8000-1860a67e9f16` | Session Active Status        | Read, Write, Notify | `0` inactive, `1` active             |
-| `ae615000-0003-4000-8000-1860a67e9f16` | Session Current Time Seconds | Read, Notify        | Decimal elapsed session seconds      |
+| `ae615000-0001-4000-8000-12670255c8fa` | Session Max Time Seconds     | Read, Write         | Decimal seconds, for example `28800` |
+| `ae615000-0002-4000-8000-12670255c8fa` | Session Active Status        | Read, Write, Notify | `0` inactive, `1` active             |
+| `ae615000-0003-4000-8000-12670255c8fa` | Session Current Time Seconds | Read, Notify        | Decimal elapsed session seconds      |
 
 Writing `1` to session status activates the relay and starts the session timer. Writing `0` deactivates the relay and stops the session timer.
 
