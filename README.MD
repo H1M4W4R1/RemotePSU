@@ -16,8 +16,8 @@ to evacuate chips.
 
 ## Configuration
 - Framework: Arduino via PlatformIO
-- Relay output pin: `19` (5V relay controlled using FR120 N-MOSFET Module)
-- RF input pin: `26` (433MHz SYN480R ASK Receiver)
+- Relay output pin: `19` 
+- RF input pin: `26`
 - Serial baud: `115200`
 
 The relay module output is active-low: activation drives the output pin `LOW`, and deactivation drives it `HIGH`.
