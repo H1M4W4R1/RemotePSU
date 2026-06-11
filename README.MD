@@ -1,23 +1,32 @@
-# RFOutlet
+<div align="center">
+  <h1>Yet Another Bluetooth Low Energy (Debugger)</h1>
+  <img src="https://github.com/H1M4W4R1/RemotePSU/blob/master/gh_images/photo.jpg" alt="Device photo"/>
+</div>
 
-RFOutlet is ESP32 firmware for a remotely controlled relay outlet. It listens for RF commands, exposes BLE session controls, and automatically deactivates the relay when the active session reaches its configured time limit.
+This project is a remotely-controlled (BLE and/or 433MHz ASK Remote) device used to enable/disable various
+machines or devices from a distance. A good example of such usage is enabling/disabling desktop mill vacuum cleaner
+to evacuate chips.
 
 ## Hardware
-
 - Board: WEMOS D1 R32 / ESP32
+- Relay: 5V relay module controlled
+- Relay control: FR120 N-MOSFET module
+- 433MHz ASK Receiver Module (SYN480R recommended)
+- 1mm² (1.5mm² recommended) wire
+
+## Configuration
 - Framework: Arduino via PlatformIO
-- Relay output pin: `19` (5V relay controlled using N-MOSFET)
+- Relay output pin: `19` (5V relay controlled using FR120 N-MOSFET Module)
 - RF input pin: `26` (433MHz SYN480R ASK Receiver)
 - Serial baud: `115200`
 
-The relay output is active-low: activation drives the output pin `LOW`, and deactivation drives it `HIGH`.
+The relay module output is active-low: activation drives the output pin `LOW`, and deactivation drives it `HIGH`.
 
 ## RF Control
-
 - Command `0xF55EA1`: activate relay and start the session timer
 - Command `0xF55EA2`: deactivate relay and stop the session timer
 
-Unknown RF commands are logged over serial only.
+Unknown RF commands are logged over serial only, you can replace above commands if your remote has different ones.
 
 ## Sessions
 
@@ -46,5 +55,3 @@ Writing `1` to session status activates the relay and starts the session timer. 
 ```powershell
 pio run
 ```
-
-The project is built with `-Wall`, `-Wextra`, and `-Werror`.
