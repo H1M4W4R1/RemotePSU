@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Yet Another Bluetooth Low Energy (Debugger)</h1>
+  <h1>Remote PSU</h1>
   <img src="https://github.com/H1M4W4R1/RemotePSU/blob/master/gh_images/photo.jpg" alt="Device photo"/>
 </div>
 
